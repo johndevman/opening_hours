@@ -48,6 +48,22 @@ class OpeningHoursItemTest extends FieldKernelTestBase {
             ['hours' => '08:00-10:00'],
             ['hours' => '12:00-20:00', 'data' => 'Foo'],
           ],
+          'tuesday' => [
+            ['hours' => '08:00-10:00'],
+          ],
+          'wednesday' => [
+            ['hours' => '08:00-10:00'],
+          ],
+          'thursday' => [
+            ['hours' => '08:00-10:00'],
+          ],
+          'friday' => [
+            ['hours' => '08:00-10:00'],
+          ],
+          'saturday' => [
+            ['hours' => '08:00-10:00'],
+          ],
+          'sunday' => [],
           'overflow' => FALSE,
         ],
       ],
