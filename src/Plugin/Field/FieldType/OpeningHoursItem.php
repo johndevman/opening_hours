@@ -40,6 +40,7 @@ class OpeningHoursItem extends FieldItemBase {
           'type' => 'blob',
           'not null' => TRUE,
           'size' => 'normal',
+          'serialize' => TRUE,
         ],
       ],
     ];
