@@ -5,6 +5,7 @@ namespace Drupal\opening_hours\TypedData;
 use Drupal\Core\TypedData\ComplexDataDefinitionBase;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\ListDataDefinition;
+use Drupal\Core\TypedData\MapDataDefinition;
 
 /**
  * Opening hours data definition.
@@ -32,6 +33,9 @@ class OpeningHoursDataDefinition extends ComplexDataDefinitionBase {
         ->setLabel(t('Saturday'));
       $this->propertyDefinitions['sunday'] = ListDataDefinition::create('opening_hours_day')
         ->setLabel(t('Sunday'));
+
+      $this->propertyDefinitions['exceptions'] = MapDataDefinition::create('opening_hours_day')
+        ->setLabel(t('Exceptions'));
 
       $this->propertyDefinitions['overflow'] = DataDefinition::create('boolean')
         ->setLabel(t('Overflow'));

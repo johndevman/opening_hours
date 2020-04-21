@@ -64,6 +64,12 @@ class OpeningHoursItemTest extends FieldKernelTestBase {
             ['hours' => '08:00-10:00'],
           ],
           'sunday' => [],
+          'exceptions' => [
+            '2016-12-25' => [
+              'hours' => [],
+              'data'  => 'Closed for Christmas',
+            ],
+          ],
           'overflow' => FALSE,
         ],
       ],
@@ -76,6 +82,7 @@ class OpeningHoursItemTest extends FieldKernelTestBase {
 
     $this->assertTrue($opening_hours->isOpenOn('monday'));
     $this->assertTrue($opening_hours->isClosedOn('sunday'));
+    $this->assertTrue($opening_hours->isClosedAt(new \DateTime('2020-12-25')));
   }
 
 }
