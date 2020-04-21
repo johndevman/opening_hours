@@ -4,7 +4,7 @@ namespace Drupal\opening_hours\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
-use Drupal\Core\TypedData\DataDefinition;
+use Drupal\opening_hours\TypedData\OpeningHoursDataDefinition;
 use Spatie\OpeningHours\OpeningHours;
 
 /**
@@ -23,7 +23,7 @@ class OpeningHoursItem extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
-    $properties['opening_hours'] = DataDefinition::create('any')
+    $properties['opening_hours'] = OpeningHoursDataDefinition::create('opening_hours')
       ->setLabel(t('Opening hours'))
       ->setRequired(TRUE);
 

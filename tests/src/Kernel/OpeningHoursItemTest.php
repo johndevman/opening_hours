@@ -44,16 +44,16 @@ class OpeningHoursItemTest extends FieldKernelTestBase {
     $entity = EntityTest::create([
       'field_opening_hours' => [
         'opening_hours' => [
-          'monday'     => ['09:00-12:00', '13:00-18:00'],
-          'tuesday'    => ['09:00-12:00', '13:00-18:00'],
-          'wednesday'  => ['09:00-12:00'],
-          'thursday'   => ['09:00-12:00', '13:00-18:00'],
-          'friday'     => ['09:00-12:00', '13:00-20:00'],
-          'saturday'   => ['09:00-12:00', '13:00-16:00'],
-          'sunday'     => [],
+          'monday' => [
+            ['hours' => '08:00-10:00'],
+            ['hours' => '12:00-20:00', 'data' => 'Foo'],
+          ],
+          'overflow' => FALSE,
         ],
       ],
     ]);
+
+    $this->assertEmpty($entity->validate());
 
     /** @var \Spatie\OpeningHours\OpeningHours $opening_hours */
     $opening_hours = $entity->get('field_opening_hours')->get(0)->getOpeningHours();

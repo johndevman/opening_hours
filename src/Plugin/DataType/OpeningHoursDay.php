@@ -1,0 +1,15 @@
+<?php
+
+namespace Drupal\opening_hours\Plugin\DataType;
+
+use Drupal\Core\TypedData\Plugin\DataType\Map;
+
+/**
+ * @DataType(
+ *   id = "opening_hours_day",
+ *   label = @Translation("Opening hours day"),
+ *   constraints = {},
+ *   definition_class = "\Drupal\opening_hours\TypedData\OpeningHoursDayDefinition"
+ * )
+ */
+class OpeningHoursDay extends Map {}
