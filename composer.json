@@ -4,7 +4,7 @@
     "homepage": "http://drupal.org/project/opening_hours",
     "license": "GPL-2.0+",
     "require": {
-        "drupal/core": "^2.7"
+        "spatie/opening-hours": "^2.7"
     },
     "minimum-stability": "dev"
 }
