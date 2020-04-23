@@ -12,4 +12,13 @@ use Drupal\Core\TypedData\Plugin\DataType\Map;
  *   definition_class = "\Drupal\opening_hours\TypedData\OpeningHoursDayDefinition"
  * )
  */
-class OpeningHoursDay extends Map {}
+class OpeningHoursDay extends Map {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isEmpty() {
+    return empty($this->get('hours')->getValue());
+  }
+
+}

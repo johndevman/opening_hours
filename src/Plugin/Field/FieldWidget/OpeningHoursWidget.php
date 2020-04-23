@@ -24,9 +24,25 @@ class OpeningHoursWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+    $field_name = $this->fieldDefinition->getName();
+    $parents = $form['#parents'];
+
+    $item = $items[$delta];
+
+    /** @var \Drupal\opening_hours\Plugin\DataType\OpeningHours $opening_hours */
+    $opening_hours = $item->get('opening_hours');
+
+    $field_state = static::getWidgetState($parents, $field_name, $form_state);
+
+    $id_suffix = $parents ? '-' . implode('-', $parents) : '';
+
     $element += [
       '#type' => 'fieldset',
       '#title' => $this->t('Opening hours'),
+      'opening_hours' => [
+        '#type' => 'container',
+        '#tree' => TRUE,
+      ],
     ];
 
     $days = [
@@ -40,10 +56,9 @@ class OpeningHoursWidget extends WidgetBase {
     ];
 
     foreach ($days as $day) {
+      $wrapper_id = "$field_name-opening-hours-day-$day-wrapper$id_suffix";
 
-      $wrapper_id = $day . '-day-wrapper';
-
-      $element[$day] = [
+      $element['opening_hours'][$day] = [
         '#type' => 'fieldset',
         '#title' => $this->t(ucfirst($day)),
         'items' => [
@@ -51,26 +66,37 @@ class OpeningHoursWidget extends WidgetBase {
         ],
         '#prefix' => '<div id="' . $wrapper_id . '">',
         '#suffix' => '</div>',
+        '#tree' => TRUE,
       ];
 
-      $day_items_count = $form_state->get($day . '_items_count');
+      $item_count = $field_state['days'][$day] ?? FALSE;
 
-      if (!$day_items_count) {
-        $form_state->set($day . '_items_count', 1);
-        $day_items_count = 1;
+      if (!$item_count) {
+        $item_count = count($opening_hours->get($day));
+        $field_state['days'][$day] = $item_count;
+
+        static::setWidgetState($parents, $field_name, $form_state, $field_state);
       }
 
-      for ($i = 0; $i < $day_items_count; $i++) {
-        $element[$day][$i] = [
+      for ($i = 0; $i <= $item_count; $i++) {
+
+        $day_property = $opening_hours->get($day);
+
+        if (!$day_property->get($i)) {
+          $day_property->appendItem();
+        }
+
+        $element['opening_hours'][$day][$i] = [
           '#type' => 'container',
         ];
-        $element[$day][$i]['hours'] = [
+        $element['opening_hours'][$day][$i]['hours'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Hours'),
+          '#default_value' => $day_property->get($i)->get('hours')->getValue(),
         ];
       }
 
-      $element[$day]['add_button'] = [
+      $element['opening_hours'][$day]['add_button'] = [
         '#type' => 'submit',
         '#name' => $day . '-add-button',
         '#day' => $day,
@@ -84,7 +110,7 @@ class OpeningHoursWidget extends WidgetBase {
       ];
     }
 
-    $element['exceptions'] = [
+    $element['opening_hours']['exceptions'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Exceptions'),
       'data' => [
@@ -108,10 +134,39 @@ class OpeningHoursWidget extends WidgetBase {
 
     $day = $button['#day'];
 
-    $day_items_count = $form_state->get($day . '_items_count');
-    $form_state->set($day . '_items_count', $day_items_count + 1);
+    $element = NestedArray::getValue($form, array_slice($button['#array_parents'], 0, -4));
+    $field_name = $element['#field_name'];
+    $parents = $element['#field_parents'];
+
+    $field_state = static::getWidgetState($parents, $field_name, $form_state);
+    $field_state['days'][$day] += 1;
+    static::setWidgetState($parents, $field_name, $form_state, $field_state);
 
     $form_state->setRebuild();
+  }
+
+  public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
+    $days = [
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
+    ];
+
+    // Remove empty items.
+    foreach ($values as $delta => $v) {
+      foreach ($days as $day) {
+        unset($values[$delta]['opening_hours'][$day]['add_button']);
+        $values[$delta]['opening_hours'][$day] = array_filter($values[$delta]['opening_hours'][$day], function ($item) {
+          return !empty($item['hours']);
+        });
+      }
+    }
+
+    return $values;
   }
 
 }
