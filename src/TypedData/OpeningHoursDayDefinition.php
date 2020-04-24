@@ -25,4 +25,12 @@ class OpeningHoursDayDefinition extends ComplexDataDefinitionBase {
     return $this->propertyDefinitions;
   }
 
+  public function getConstraints() {
+    $constraints = parent::getConstraints();
+
+    $constraints['Hours'] = [];
+
+    return $constraints;
+  }
+
 }

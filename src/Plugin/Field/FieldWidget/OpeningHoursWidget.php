@@ -156,7 +156,7 @@ class OpeningHoursWidget extends WidgetBase {
       'sunday',
     ];
 
-    // Remove empty items.
+    // Filter empty items.
     foreach ($values as $delta => $v) {
       foreach ($days as $day) {
         unset($values[$delta]['opening_hours'][$day]['add_button']);
