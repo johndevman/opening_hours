@@ -25,6 +25,7 @@ class HoursConstraintValidator extends ConstraintValidator {
       $time_range = TimeRange::fromString($value['hours']);
     } catch (InvalidTimeRangeString $e) {
       $this->context->buildViolation($constraint->invalidTimeRange)
+        ->atPath('hours')
         ->addViolation();
     }
   }

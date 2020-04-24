@@ -6,6 +6,7 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * Plugin implementation of the 'opening_hours_default' field widget.
@@ -119,6 +120,13 @@ class OpeningHoursWidget extends WidgetBase {
     ];
 
     return $element;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function errorElement(array $element, ConstraintViolationInterface $error, array $form, FormStateInterface $form_state) {
+    return NestedArray::getValue($element, $error->arrayPropertyPath);
   }
 
   public static function updateWidget(array $form, FormStateInterface $form_state) {
