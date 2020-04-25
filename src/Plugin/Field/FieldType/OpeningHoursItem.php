@@ -14,7 +14,7 @@ use Spatie\OpeningHours\OpeningHours;
  *   id = "opening_hours",
  *   label = @Translation("Opening hours"),
  *   default_widget = "opening_hours_default",
- *   default_formatter = "opening_hours_open_closed",
+ *   default_formatter = "opening_hours",
  * )
  */
 class OpeningHoursItem extends FieldItemBase {
