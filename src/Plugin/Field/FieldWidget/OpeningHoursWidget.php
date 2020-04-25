@@ -120,9 +120,13 @@ class OpeningHoursWidget extends WidgetBase {
       static::setWidgetState($parents, $field_name, $form_state, $field_state);
     }
 
+    $exceptions_wrapper_id = "$field_name-opening-hours-exceptions-wrapper$id_suffix";
+
     $element['opening_hours']['exceptions'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Exceptions'),
+      '#prefix' => '<div id="' . $exceptions_wrapper_id . '">',
+      '#suffix' => '</div>',
     ];
 
     $exceptions = $opening_hours->get('exceptions');
@@ -144,6 +148,18 @@ class OpeningHoursWidget extends WidgetBase {
         '#default_value' => $exception->get('date')->getValue(),
       ];
     }
+
+    $element['opening_hours']['exceptions']['add_button'] = [
+      '#type' => 'submit',
+      '#name' => 'exception-add-button',
+      '#value' => $this->t('Add more'),
+      '#ajax' => [
+        'callback' => [static::class, 'updateWidget'],
+        'wrapper' => $exceptions_wrapper_id,
+      ],
+      '#submit' => [[static::class, 'addException']],
+      '#limit_validation_errors' => [],
+    ];
 
     return $element;
   }
@@ -179,6 +195,20 @@ class OpeningHoursWidget extends WidgetBase {
     $form_state->setRebuild();
   }
 
+  public static function addException(array $form, FormStateInterface $form_state) {
+    $button = $form_state->getTriggeringElement();
+
+    $element = NestedArray::getValue($form, array_slice($button['#array_parents'], 0, -4));
+    $field_name = $element['#field_name'];
+    $parents = $element['#field_parents'];
+
+    $field_state = static::getWidgetState($parents, $field_name, $form_state);
+    $field_state['exception_count'] += 1;
+    static::setWidgetState($parents, $field_name, $form_state, $field_state);
+
+    $form_state->setRebuild();
+  }
+
   public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
     $days = [
       'monday',
@@ -198,6 +228,7 @@ class OpeningHoursWidget extends WidgetBase {
           return !empty($item['hours']);
         });
 
+        unset($values[$delta]['opening_hours']['exceptions']['add_button']);
         $values[$delta]['opening_hours']['exceptions'] = array_filter($values[$delta]['opening_hours']['exceptions'], function ($exception) {
           return !empty($exception['date']);
         });
