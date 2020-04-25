@@ -47,6 +47,23 @@ class OpeningHoursItem extends FieldItemBase {
   }
 
   public function getOpeningHours() {
-    return OpeningHours::create($this->opening_hours);
+    $values = $this->opening_hours;
+
+    $exceptions = [];
+
+    foreach ($values['exceptions'] as $exception) {
+      $exceptions[$exception['date']] = [];
+    }
+
+    return OpeningHours::create([
+      'monday' => $values['monday'],
+      'tuesday' => $values['tuesday'],
+      'wednesday' => $values['wednesday'],
+      'thursday' => $values['thursday'],
+      'friday' => $values['friday'],
+      'saturday' => $values['saturday'],
+      'sunday' => $values['sunday'],
+      'exceptions' => $exceptions,
+    ]);
   }
 }

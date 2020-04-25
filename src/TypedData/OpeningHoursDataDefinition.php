@@ -34,7 +34,7 @@ class OpeningHoursDataDefinition extends ComplexDataDefinitionBase {
       $this->propertyDefinitions['sunday'] = ListDataDefinition::create('opening_hours_day')
         ->setLabel(t('Sunday'));
 
-      $this->propertyDefinitions['exceptions'] = OpeningHoursDayDefinition::create('opening_hours_day')
+      $this->propertyDefinitions['exceptions'] = ListDataDefinition::create('opening_hours_exception')
         ->setLabel(t('Exceptions'));
 
       $this->propertyDefinitions['overflow'] = DataDefinition::create('boolean')

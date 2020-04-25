@@ -111,13 +111,39 @@ class OpeningHoursWidget extends WidgetBase {
       ];
     }
 
+    $exception_count = $field_state['exception_count'] ?? FALSE;
+
+    if ($exception_count === FALSE) {
+      $exception_count = count($opening_hours->get('exceptions'));
+      $field_state['exception_count'] = $exception_count;
+
+      static::setWidgetState($parents, $field_name, $form_state, $field_state);
+    }
+
     $element['opening_hours']['exceptions'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Exceptions'),
-      'data' => [
-        '#type' => 'container',
-      ],
     ];
+
+    $exceptions = $opening_hours->get('exceptions');
+
+    for ($i = 0; $i <= $exception_count; $i++) {
+      $exception = $exceptions->get($i);
+
+      if (!$exception) {
+        $exceptions->appendItem();
+        $exception = $exceptions->get($i);
+      }
+
+      $element['opening_hours']['exceptions'][$i] = [
+        '#type' => 'container',
+      ];
+      $element['opening_hours']['exceptions'][$i]['date'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Date'),
+        '#default_value' => $exception->get('date')->getValue(),
+      ];
+    }
 
     return $element;
   }
@@ -164,12 +190,16 @@ class OpeningHoursWidget extends WidgetBase {
       'sunday',
     ];
 
-    // Filter empty items.
+    // Filter empty values.
     foreach ($values as $delta => $v) {
       foreach ($days as $day) {
         unset($values[$delta]['opening_hours'][$day]['add_button']);
         $values[$delta]['opening_hours'][$day] = array_filter($values[$delta]['opening_hours'][$day], function ($item) {
           return !empty($item['hours']);
+        });
+
+        $values[$delta]['opening_hours']['exceptions'] = array_filter($values[$delta]['opening_hours']['exceptions'], function ($exception) {
+          return !empty($exception['date']);
         });
       }
     }
