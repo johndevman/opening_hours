@@ -72,7 +72,7 @@ class OpeningHoursWidget extends WidgetBase {
 
       $item_count = $field_state['days'][$day] ?? FALSE;
 
-      if (!$item_count) {
+      if ($item_count === FALSE) {
         $item_count = count($opening_hours->get($day));
         $field_state['days'][$day] = $item_count;
 
