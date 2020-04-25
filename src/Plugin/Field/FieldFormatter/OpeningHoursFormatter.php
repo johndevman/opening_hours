@@ -32,6 +32,9 @@ class OpeningHoursFormatter extends FormatterBase {
 
       $elements[$delta] = [
         '#type' => 'table',
+        '#attributes' => [
+          'class' => ['opening-hours'],
+        ],
       ];
 
       /**
