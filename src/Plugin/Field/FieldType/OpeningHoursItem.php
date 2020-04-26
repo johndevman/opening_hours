@@ -53,6 +53,10 @@ class OpeningHoursItem extends FieldItemBase {
 
     foreach ($values['exceptions'] as $exception) {
       $exceptions[$exception['date']] = [];
+
+      if (!empty($exception['hours'])) {
+        $exceptions[$exception['date']]['hours'] = [$exception['hours']];
+      }
     }
 
     return OpeningHours::create([

@@ -147,6 +147,11 @@ class OpeningHoursWidget extends WidgetBase {
         '#title' => $this->t('Date'),
         '#default_value' => $exception->get('date')->getValue(),
       ];
+      $element['opening_hours']['exceptions'][$i]['hours'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Hours'),
+        '#default_value' => $exception->get('hours')->getValue(),
+      ];
     }
 
     $element['opening_hours']['exceptions']['add_button'] = [
