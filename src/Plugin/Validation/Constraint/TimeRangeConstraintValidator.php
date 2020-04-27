@@ -22,7 +22,8 @@ class TimeRangeConstraintValidator extends ConstraintValidator {
 
     try {
       $time_range = TimeRange::fromString($value);
-    } catch (InvalidTimeRangeString $e) {
+    }
+    catch (InvalidTimeRangeString $e) {
       $this->context->buildViolation($constraint->invalidTimeRange)
         ->addViolation();
     }

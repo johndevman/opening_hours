@@ -41,4 +41,5 @@ class OpeningHoursDataDefinition extends ComplexDataDefinitionBase {
     }
     return $this->propertyDefinitions;
   }
+
 }

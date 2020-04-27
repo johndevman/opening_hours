@@ -109,4 +109,5 @@ class OpenClosedFormatterTest extends FieldKernelTestBase {
       ],
     ];
   }
+
 }

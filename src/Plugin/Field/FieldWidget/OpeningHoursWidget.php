@@ -56,12 +56,22 @@ class OpeningHoursWidget extends WidgetBase {
       'sunday',
     ];
 
+    $translated_days = [
+      'monday' => $this->t('Monday'),
+      'tuesday' => $this->t('Tuesday'),
+      'wednesday' => $this->t('Wednesday'),
+      'thursday' => $this->t('Thursday'),
+      'friday' => $this->t('Friday'),
+      'saturday' => $this->t('Saturday'),
+      'sunday' => $this->t('Sunday'),
+    ];
+
     foreach ($days as $day) {
       $wrapper_id = "$field_name-opening-hours-day-$day-wrapper$id_suffix";
 
       $element['opening_hours'][$day] = [
         '#type' => 'details',
-        '#title' => $this->t(ucfirst($day)),
+        '#title' => $translated_days[$day],
         '#prefix' => '<div id="' . $wrapper_id . '">',
         '#suffix' => '</div>',
         '#tree' => TRUE,
@@ -189,6 +199,17 @@ class OpeningHoursWidget extends WidgetBase {
     return NestedArray::getValue($element, $error->arrayPropertyPath);
   }
 
+  /**
+   * Ajax callback to update the widget.
+   *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The form element updated.
+   */
   public static function updateWidget(array $form, FormStateInterface $form_state) {
     $button = $form_state->getTriggeringElement();
 
@@ -197,6 +218,14 @@ class OpeningHoursWidget extends WidgetBase {
     return $element;
   }
 
+  /**
+   * Updates the field state and flags the form for rebuild.
+   *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   */
   public static function addItem(array $form, FormStateInterface $form_state) {
     $button = $form_state->getTriggeringElement();
 
@@ -213,6 +242,14 @@ class OpeningHoursWidget extends WidgetBase {
     $form_state->setRebuild();
   }
 
+  /**
+   * Updates the field state and flags the form for rebuild.
+   *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   */
   public static function addException(array $form, FormStateInterface $form_state) {
     $button = $form_state->getTriggeringElement();
 
@@ -227,6 +264,9 @@ class OpeningHoursWidget extends WidgetBase {
     $form_state->setRebuild();
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
     $days = [
       'monday',

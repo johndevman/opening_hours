@@ -46,6 +46,12 @@ class OpeningHoursItem extends FieldItemBase {
     ];
   }
 
+  /**
+   * Gets opening hours object.
+   *
+   * @return \Spatie\OpeningHours\OpeningHours
+   *   The opening hours object.
+   */
   public function getOpeningHours() {
     $values = $this->opening_hours;
 
@@ -70,4 +76,5 @@ class OpeningHoursItem extends FieldItemBase {
       'exceptions' => $exceptions,
     ]);
   }
+
 }

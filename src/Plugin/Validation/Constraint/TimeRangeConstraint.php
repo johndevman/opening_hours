@@ -14,6 +14,11 @@ use Symfony\Component\Validator\Constraint;
  */
 class TimeRangeConstraint extends Constraint {
 
+  /**
+   * Invalid time range message.
+   *
+   * @var string
+   */
   public $invalidTimeRange = 'The value isn\'t a valid time range string. A time string must be a formatted as `H:i-H:i`, e.g. `09:00-18:00`.';
 
 }
