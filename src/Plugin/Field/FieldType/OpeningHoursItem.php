@@ -55,7 +55,7 @@ class OpeningHoursItem extends FieldItemBase {
       $exceptions[$exception['date']] = [];
 
       if (!empty($exception['hours'])) {
-        $exceptions[$exception['date']]['hours'] = [$exception['hours']];
+        $exceptions[$exception['date']]['hours'] = $exception['hours'];
       }
     }
 

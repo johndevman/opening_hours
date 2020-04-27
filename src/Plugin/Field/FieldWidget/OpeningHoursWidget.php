@@ -144,11 +144,27 @@ class OpeningHoursWidget extends WidgetBase {
         '#title' => $this->t('Date'),
         '#default_value' => $exception->get('date')->getValue(),
       ];
+
       $element['opening_hours']['exceptions'][$i]['hours'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Hours'),
-        '#default_value' => $exception->get('hours')->getValue(),
+        '#type' => 'container',
       ];
+
+      $exception_hours_count = 0;
+
+      for ($j = 0; $j <= $exception_hours_count; $j++) {
+        $exception_hour = $exception->get('hours')->get($j);
+
+        if (!$exception_hour) {
+          $exception->get('hours')->appendItem();
+          $exception_hour = $exception->get('hours')->get($j);
+        }
+
+        $element['opening_hours']['exceptions'][$i]['hours'][0] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Hours'),
+          '#default_value' => $exception_hour->getValue(),
+        ];
+      }
     }
 
     $element['opening_hours']['exceptions']['add_button'] = [

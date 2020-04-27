@@ -17,20 +17,12 @@ class OpeningHoursDayDefinition extends ComplexDataDefinitionBase {
     if (!isset($this->propertyDefinitions)) {
       $this->propertyDefinitions = [];
 
-      $this->propertyDefinitions['hours'] = DataDefinition::create('string')
+      $this->propertyDefinitions['hours'] = DataDefinition::create('time_range')
         ->setLabel(t('Hours'));
       $this->propertyDefinitions['data'] = DataDefinition::create('string')
         ->setLabel(t('Data'));
     }
     return $this->propertyDefinitions;
-  }
-
-  public function getConstraints() {
-    $constraints = parent::getConstraints();
-
-    $constraints['Hours'] = [];
-
-    return $constraints;
   }
 
 }

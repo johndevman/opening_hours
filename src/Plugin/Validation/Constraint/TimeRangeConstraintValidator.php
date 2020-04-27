@@ -10,22 +10,20 @@ use Symfony\Component\Validator\ConstraintValidator;
 /**
  * Validates the Hours constraint.
  */
-class HoursConstraintValidator extends ConstraintValidator {
+class TimeRangeConstraintValidator extends ConstraintValidator {
 
   /**
    * {@inheritdoc}
    */
   public function validate($value, Constraint $constraint) {
-    // Ignore empty values.
-    if (empty($value['hours'])) {
+    if (empty($value)) {
       return;
     }
 
     try {
-      $time_range = TimeRange::fromString($value['hours']);
+      $time_range = TimeRange::fromString($value);
     } catch (InvalidTimeRangeString $e) {
       $this->context->buildViolation($constraint->invalidTimeRange)
-        ->atPath('hours')
         ->addViolation();
     }
   }

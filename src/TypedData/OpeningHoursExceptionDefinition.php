@@ -20,18 +20,10 @@ class OpeningHoursExceptionDefinition extends ComplexDataDefinitionBase {
 
       $this->propertyDefinitions['date'] = DataDefinition::create('string')
         ->setLabel(t('Date'));
-      $this->propertyDefinitions['hours'] = DataDefinition::create('string')
+      $this->propertyDefinitions['hours'] = ListDataDefinition::create('time_range')
         ->setLabel(t('Hours'));
     }
     return $this->propertyDefinitions;
-  }
-
-  public function getConstraints() {
-    $constraints = parent::getConstraints();
-
-    $constraints['Hours'] = [];
-
-    return $constraints;
   }
 
 }
