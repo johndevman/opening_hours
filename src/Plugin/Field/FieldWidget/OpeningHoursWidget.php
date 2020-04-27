@@ -60,11 +60,8 @@ class OpeningHoursWidget extends WidgetBase {
       $wrapper_id = "$field_name-opening-hours-day-$day-wrapper$id_suffix";
 
       $element['opening_hours'][$day] = [
-        '#type' => 'fieldset',
+        '#type' => 'details',
         '#title' => $this->t(ucfirst($day)),
-        'items' => [
-          '#type' => 'container',
-        ],
         '#prefix' => '<div id="' . $wrapper_id . '">',
         '#suffix' => '</div>',
         '#tree' => TRUE,
@@ -123,7 +120,7 @@ class OpeningHoursWidget extends WidgetBase {
     $exceptions_wrapper_id = "$field_name-opening-hours-exceptions-wrapper$id_suffix";
 
     $element['opening_hours']['exceptions'] = [
-      '#type' => 'fieldset',
+      '#type' => 'details',
       '#title' => $this->t('Exceptions'),
       '#prefix' => '<div id="' . $exceptions_wrapper_id . '">',
       '#suffix' => '</div>',
