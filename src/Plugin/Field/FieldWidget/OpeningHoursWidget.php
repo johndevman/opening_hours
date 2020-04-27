@@ -229,14 +229,20 @@ class OpeningHoursWidget extends WidgetBase {
     foreach ($values as $delta => $v) {
       foreach ($days as $day) {
         unset($values[$delta]['opening_hours'][$day]['add_button']);
-        $values[$delta]['opening_hours'][$day] = array_filter($values[$delta]['opening_hours'][$day], function ($item) {
-          return !empty($item['hours']);
-        });
+
+        if ($form_state->isValidationComplete()) {
+          $values[$delta]['opening_hours'][$day] = array_filter($values[$delta]['opening_hours'][$day], function ($item) {
+            return !empty($item['hours']);
+          });
+        }
 
         unset($values[$delta]['opening_hours']['exceptions']['add_button']);
-        $values[$delta]['opening_hours']['exceptions'] = array_filter($values[$delta]['opening_hours']['exceptions'], function ($exception) {
-          return !empty($exception['date']);
-        });
+
+        if ($form_state->isValidationComplete()) {
+          $values[$delta]['opening_hours']['exceptions'] = array_filter($values[$delta]['opening_hours']['exceptions'], function ($exception) {
+            return !empty($exception['date']);
+          });
+        }
       }
     }
 

@@ -5,7 +5,6 @@ namespace Drupal\opening_hours\TypedData;
 use Drupal\Core\TypedData\ComplexDataDefinitionBase;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\ListDataDefinition;
-use Drupal\Core\TypedData\MapDataDefinition;
 
 /**
  * Opening hours data definition.
