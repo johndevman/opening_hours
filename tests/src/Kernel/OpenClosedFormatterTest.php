@@ -85,6 +85,7 @@ class OpenClosedFormatterTest extends FieldKernelTestBase {
             'sunday' => [
               ['hours' => '00:00-23:59'],
             ],
+            'exceptions' => [],
           ],
         ],
         [
@@ -101,6 +102,7 @@ class OpenClosedFormatterTest extends FieldKernelTestBase {
             'friday' => [],
             'saturday' => [],
             'sunday' => [],
+            'exceptions' => [],
           ],
         ],
         [

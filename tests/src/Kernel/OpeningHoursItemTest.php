@@ -65,7 +65,8 @@ class OpeningHoursItemTest extends FieldKernelTestBase {
           ],
           'sunday' => [],
           'exceptions' => [
-            '2016-12-25' => [
+            [
+              'date' => '2020-12-25',
               'hours' => [],
               'data'  => 'Closed for Christmas',
             ],
